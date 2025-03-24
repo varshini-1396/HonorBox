@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState, useRef } from "react";
+import { useState, useRef,useEffect } from "react";
 import QRCode from "qrcode";
 
 const Generate = () => {
@@ -10,9 +10,27 @@ const Generate = () => {
   const [message, setMessage] = useState("");
   const [uniqueId, setUniqueId] = useState("");
   const [qrCodeUrl, setQrCodeUrl] = useState("");
+  const [backgroundImage, setBackgroundImage] = useState(null); // Store uploaded image
+  const [uploadedImage, setUploadedImage] = useState("");
 
   const canvasRef = useRef(null);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+  useEffect(() => {
+    fetchLatestImage();
+  }, []);
+
+  const fetchLatestImage = async () => {
+    try {
+      const response = await fetch(`${BACKEND_URL}/api/get-latest-image`);
+      const data = await response.json();
+      if (response.ok) {
+        setUploadedImage(data.imageUrl);
+      }
+    } catch (error) {
+      console.error("Error fetching latest image:", error);
+    }
+  };
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -54,7 +72,13 @@ const Generate = () => {
       setLoading(false);
     }
   };
-
+  const handleBackgroundUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setBackgroundImage(imageUrl);
+    }
+  };
   const generateCanvasCertificate = (qrUrl, certId) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -64,53 +88,56 @@ const Generate = () => {
     canvas.height = 600;
 
     // Background
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (backgroundImage) {
+      const bgImage = new Image();
+      bgImage.src = backgroundImage;
+      bgImage.onload = () => {
+        ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
 
-    // Border
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 5;
-    ctx.strokeRect(10, 10, canvas.width - 20, canvas.height - 20);
+        drawCertificateText(ctx, qrUrl,certId);
+      };
+    } else {
+      // Default background
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      drawCertificateText(ctx, qrUrl,certId);
+    }
+  };
 
     // Title
-    ctx.fillStyle = "#000";
-    ctx.font = "bold 28px Arial";
-    ctx.textAlign = "center";
-    ctx.fillText(`${certificateType} Certificate`, canvas.width / 2, 100);
-
-    // Recipient Name
-    ctx.font = "20px Arial";
-    ctx.fillText("Awarded to:", canvas.width / 2, 200);
-    
-    ctx.font = "bold 24px Arial";
-    ctx.fillText(name, canvas.width / 2, 250);
-
-    // Email
-    ctx.font = "16px Arial";
-    ctx.fillText(email, canvas.width / 2, 300);
-
-    // Footer
-    ctx.font = "16px Arial";
-    ctx.fillText("Congratulations on your achievement!", canvas.width / 2, 500);
-
-    // Certificate ID
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "#333";
-    ctx.textAlign = "left";
-    ctx.fillText(`ID: ${certId}`, 20, canvas.height - 20);
-
-    // Draw QR Code
-    if (qrUrl) {
-      const qrImage = new Image();
-      qrImage.crossOrigin = "anonymous";
-      qrImage.src = qrUrl;
-      qrImage.onload = () => {
-        ctx.drawImage(qrImage, canvas.width - 140, canvas.height - 140, 100, 100);
-      };
-      qrImage.onerror = (err) => {
-        console.error("QR Code Image Load Error:", err);
-      };
-    }
+    const drawCertificateText = (ctx, qrUrl,certId) => {
+      ctx.fillStyle = "#000";
+      ctx.font = "bold 50px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText(`Certificate of ${certificateType}`, 400, 200);
+  
+      // ctx.font = "20px Arial";
+      // ctx.fillText("Awarded to:", 400, 200);
+      
+      // ctx.font = "bold 24px Arial";
+      // ctx.fillText(name, 400, 250);
+  
+      ctx.font = "50px Arial bold italic";
+      ctx.fillStyle="#004aad";
+      ctx.fillText(name, 400, 320);
+  
+      ctx.font = "16px Arial";
+      ctx.fillText("Congratulations on your achievement!", 400, 500);
+  
+      ctx.font = "16px Arial";
+      ctx.fillStyle = "#333";
+      ctx.textAlign = "left";
+      ctx.fillText(`ID: ${certId}`, 20, 580);
+  
+      if (qrUrl) {
+        const qrImage = new Image();
+        qrImage.crossOrigin = "anonymous";
+        qrImage.src = qrUrl;
+        qrImage.onload = () => {
+          ctx.drawImage(qrImage, 660, 460, 100, 100);
+        };
+      }
   };
 
   const handleSendCertificate = async () => {
@@ -180,7 +207,19 @@ const Generate = () => {
           <option value="Excellence">Excellence</option>
           <option value="Achievement">Achievement</option>
         </select>
-
+        <label className="block text-lg font-semibold mt-4 mb-2">Upload Certificate Background:</label>
+        <input
+          type="file"
+          accept="image/*"
+          className="file-input file-input-bordered w-full"
+          onChange={handleBackgroundUpload}
+        />
+        {uploadedImage && (
+          <div className="mt-4">
+            <h2 className="text-lg font-semibold">Uploaded Image:</h2>
+            <img src={uploadedImage} alt="Uploaded" className="w-64 h-64 rounded-lg border shadow-md" />
+          </div>
+        )}
         <button className="btn btn-primary w-full mt-4" onClick={handleGenerate} disabled={loading}>
           {loading ? "Generating..." : "Generate Certificate"}
         </button>

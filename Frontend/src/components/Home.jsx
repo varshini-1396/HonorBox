@@ -40,7 +40,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="footer p-4 bg-base-300 text-center">
-        <p>© 2025 HonorBox. Built with ❤️ by Open Source Contributors.</p>
+        <p>© 2025 HonorBox. Made by Ram</p>
       </footer>
     </div>
   );

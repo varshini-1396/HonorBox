@@ -25,11 +25,11 @@ const Navbar = () => {
   return (
     <div className="navbar bg-neutral text-neutral-content px-6">
       <div className="flex-1">
-        <a className="text-xl font-bold">HonorBox</a>
+        <a className="text-xl font-bold" href="/">HonorBox</a>
       </div>
       <div className="hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><a className="hover:text-primary">Home</a></li>
+          <li><a className="hover:text-primary" href="/">Home</a></li>
           {user ? (
             <>
               <li><a className="hover:text-primary">Welcome, {user.name}</a></li>
@@ -51,7 +51,7 @@ const Navbar = () => {
           ☰
         </label>
         <ul tabIndex={0} className="menu dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52">
-          <li><a>Home</a></li>
+          <li><a href="/">Home</a></li>
           <li><a>Features</a></li>
           <li><a>Certificates</a></li>
         </ul>

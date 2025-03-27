@@ -8,7 +8,7 @@ require("./config/db");
 const app = express();
 app.use(bodyParser.json({ limit: "50mb" }));  // Increase JSON request size limit
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true })); 
-app.use(cors({ origin: process.env.FRONTEND_URL, credentials: true }));
+app.use(cors({ origin: "process.env.FRONTEND_URL", credentials: false }));
 app.use(express.json());
 
 

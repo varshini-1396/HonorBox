@@ -22,7 +22,7 @@ const Generate = () => {
 
   const fetchLatestImage = async () => {
     try {
-      const response = await fetch(`${BACKEND_URL}/api/get-latest-image`);
+      const response = await fetch(`${BACKEND_URL}/api/images/get-images`);
       const data = await response.json();
       if (response.ok) {
         setUploadedImage(data.imageUrl);

@@ -6,18 +6,33 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [user, setUser] = useState(() => {
-    // Load user from localStorage on initial render
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
   const navigate = useNavigate();
+  const saveUserToDB = async (userData) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error saving user:", error);
+    }
+  };
 
   const handleLoginSuccess = (response) => {
     const decoded = jwtDecode(response.credential);
     setUser(decoded);
     localStorage.setItem("user", JSON.stringify(decoded)); // Store user in localStorage
     setIsModalOpen(false);
+    saveUserToDB({ name: decoded.name, email: decoded.email, googleId: decoded.sub });
     navigate("/");
     window.location.reload();
   };

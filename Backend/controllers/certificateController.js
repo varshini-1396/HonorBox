@@ -36,7 +36,7 @@ exports.generateCertificate = async (req, res) => {
     } while (existingCertificate);
 
     // Generate QR Code linking to the verification page
-    const verificationUrl = `http://localhost:5173/verify/${uniqueId}`;
+    const verificationUrl = `${process.env.FRONTEND_URL}/verify/${uniqueId}`;
     const qrCodeUrl = await QRCode.toDataURL(verificationUrl);
 
     // Save to database

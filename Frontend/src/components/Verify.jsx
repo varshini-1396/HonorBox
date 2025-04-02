@@ -54,7 +54,7 @@ const Verify = () => {
           className="input input-bordered w-full"
           value={certificateId}
           onChange={(e) => setCertificateId(e.target.value)}
-          placeholder="e.g., 123e4567-e89b-12d3-a456-426614174000"
+          placeholder="e.g., 123e4567"
         />
         <button
           className="btn btn-primary w-full mt-4"
@@ -94,24 +94,6 @@ const Verify = () => {
             </p>
 
             {/* Display QR Code if available */}
-            {certificateData.qrCodeUrl && (
-              <div className="mt-4 text-center">
-                <p>
-                  <strong>Scan QR Code:</strong>
-                </p>
-                <a
-                  href={certificateData.qrCodeUrl}
-                  download="certificate_qr.png"
-                >
-                  <img
-                    src={certificateData.qrCodeUrl}
-                    alt="QR Code"
-                    className="w-32 h-32 mx-auto border p-2 rounded-lg shadow-md cursor-pointer hover:opacity-80"
-                  />
-                </a>
-                <p className="text-sm mt-2">Click QR to download</p>
-              </div>
-            )}
           </div>
         )}
       </div>

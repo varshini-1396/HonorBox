@@ -3,6 +3,8 @@ import { GoogleLogin, googleLogout } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FaBars, FaTimes } from "react-icons/fa";
+import "./custom.css"; 
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,6 +12,7 @@ const Navbar = () => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navigate = useNavigate();
   const saveUserToDB = async (userData) => {
@@ -62,9 +65,9 @@ const Navbar = () => {
         >
           <a href="/" className="flex items-center gap-2 text-white text-xl font-semibold select-none">
             <img src="/honorbo logo.png" alt="logo" className="w-10 h-10 object-contain rounded-full bg-transparent" style={{background: 'none'}} />
-            <span className="font-bold tracking-tight">HonourBox</span>
+            <span className="font-bold tracking-tight">HonorBox</span>
           </a>
-          <div className="flex items-center gap-6">
+          <div className="hidden md:flex items-center gap-6">
             <a
               href="/"
               className="text-white font-semibold text-base px-2 py-1 transition-transform duration-150 hover:scale-105 hover:underline underline-offset-8"
@@ -85,30 +88,51 @@ const Navbar = () => {
               </button>
             )}
           </div>
+          <div className="md:hidden flex items-center">
+            <button
+              className="text-white text-2xl p-2 rounded hover:bg-white/10 focus:outline-none"
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              aria-label="Open menu"
+            >
+              {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+            </button>
+          </div>
         </motion.div>
-        <style>{`
-          .drop-shadow-glow {
-            filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 2px #fff);
-          }
-          @media (max-width: 600px) {
-            nav > div {
-              padding-left: 1rem;
-              padding-right: 1rem;
-              gap: 1rem;
-            }
-            .text-xl {
-              font-size: 1.1rem;
-            }
-            .w-10 {
-              width: 2rem;
-              height: 2rem;
-            }
-            .gap-6 {
-              gap: 1rem;
-            }
-          }
-        `}</style>
       </motion.nav>
+
+      {mobileMenuOpen && (
+        <div className="fixed inset-0 z-40 bg-black/60 flex flex-col items-end md:hidden">
+          <div className="w-2/3 max-w-xs bg-[rgba(30,30,40,0.98)] backdrop-blur-md h-full p-8 flex flex-col gap-6 shadow-2xl">
+            <button
+              className="self-end text-white text-2xl mb-4"
+              onClick={() => setMobileMenuOpen(false)}
+              aria-label="Close menu"
+            >
+              <FaTimes />
+            </button>
+            <a
+              href="/"
+              className="text-white font-semibold text-lg py-2 px-2 rounded transition hover:bg-white/10"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Home
+            </a>
+            {user ? (
+              <>
+                <span className="text-white font-semibold py-2 px-2 rounded">{user.name}</span>
+                <button className="btn btn-error btn-sm w-full" onClick={() => { setMobileMenuOpen(false); handleLogout(); }}>Logout</button>
+              </>
+            ) : (
+              <button
+                className="text-white font-semibold text-lg py-2 px-2 rounded transition hover:bg-white/10 w-full text-left"
+                onClick={() => { setMobileMenuOpen(false); setIsModalOpen(true); }}
+              >
+                Login
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50 p-4">

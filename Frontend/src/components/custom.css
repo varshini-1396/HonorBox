@@ -1,0 +1,48 @@
+/* custom.css */
+
+.drop-shadow-glow {
+    filter: drop-shadow(0 0 8px #a78bfa) drop-shadow(0 0 2px #fff);
+  }
+  
+  @media (max-width: 600px) {
+    nav > div {
+      padding-left: 1rem;
+      padding-right: 1rem;
+      gap: 1rem;
+    }
+    .text-xl {
+      font-size: 1.1rem;
+    }
+    .w-10 {
+      width: 2rem;
+      height: 2rem;
+    }
+    .gap-6 {
+      gap: 1rem;
+    }
+  }
+  
+  .footer-link {
+    text-decoration: none;
+    position: relative;
+    transition: color 0.2s;
+  }
+  .footer-link:after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 2px;
+    background: linear-gradient(90deg, #7c3aed, #f472b6);
+    border-radius: 2px;
+    transform: scaleX(0);
+    transition: transform 0.2s;
+  }
+  .footer-link:hover:after, .footer-link:focus:after {
+    transform: scaleX(1);
+  }
+  
+  html, body {
+    width: 100vw;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }

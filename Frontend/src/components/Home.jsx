@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaFileAlt, FaCertificate, FaShieldAlt, FaMagic, FaGithub } from "react-icons/fa";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import "./custom.css"; // <-- Import the custom CSS
 
 const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap";
 
@@ -142,26 +144,6 @@ const Home = () => {
               <span className="text-xs text-white/60">© {new Date().getFullYear()} HonorBox. Made by Ram</span>
             </div>
           </div>
-          <style>{`
-            .footer-link {
-              text-decoration: none;
-              position: relative;
-              transition: color 0.2s;
-            }
-            .footer-link:after {
-              content: '';
-              position: absolute;
-              left: 0; right: 0; bottom: -2px;
-              height: 2px;
-              background: linear-gradient(90deg, #7c3aed, #f472b6);
-              border-radius: 2px;
-              transform: scaleX(0);
-              transition: transform 0.2s;
-            }
-            .footer-link:hover:after, .footer-link:focus:after {
-              transform: scaleX(1);
-            }
-          `}</style>
         </motion.footer>
       </div>
     </div>

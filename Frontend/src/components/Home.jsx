@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 import { FaFileAlt, FaCertificate, FaShieldAlt, FaMagic, FaGithub } from "react-icons/fa";
-import { useState, useEffect } from "react";
+import {useEffect } from "react";
 import { motion } from "framer-motion";
-import "./custom.css"; // <-- Import the custom CSS
+import "./custom.css";
 
 const fontUrl = "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap";
 
@@ -25,9 +25,27 @@ const features = [
 ];
 
 const Home = () => {
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.href = fontUrl;
+    link.rel = "stylesheet";
+    document.head.appendChild(link);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
   const user = localStorage.getItem("user");
   return (
-    <div style={{ width: '100%', minHeight: '100vh', position: 'relative', overflow: 'visible' }}>
+    <div
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+        position: 'relative',
+        overflow: 'visible',
+        fontFamily: "'Inter', sans-serif"
+      }}
+    >
       <div style={{ position: 'relative', zIndex: 1 }}>
         <motion.section
           className="flex flex-col items-center justify-center min-h-[80vh] pt-32 pb-16 px-4"

@@ -74,15 +74,6 @@ const Verify = () => {
             </div>
           )}
         </div>
-        <style>{`
-          .animate-fade-in-up {
-            animation: fadeInUp 0.7s cubic-bezier(.39,.575,.565,1) both;
-          }
-          @keyframes fadeInUp {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-        `}</style>
       </div>
     </div>
   );

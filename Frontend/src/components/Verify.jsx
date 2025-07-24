@@ -1,5 +1,5 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
+import DarkVeil from "./DarkVeil";
 
 const Verify = () => {
   const [certificateId, setCertificateId] = useState("");
@@ -25,77 +25,55 @@ const Verify = () => {
         `${BACKEND_URL}/api/verify/${certificateId}`
       );
       const data = await response.json();
-      console.log(data);
-
       if (response.ok) {
         setCertificateData(data);
       } else {
         setError(data.message || "Certificate not found.");
       }
     } catch (err) {
-      setError("Error verifying the  Please try again.");
+      setError("Error verifying the certificate. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-base-200 p-6">
-      <h1 className="text-4xl font-bold text-center mb-6 text-primary">
-        Verify Certificate
-      </h1>
-
-      <div className="card bg-white shadow-xl p-6 w-full max-w-lg rounded-lg">
-        <label className="block text-lg font-semibold mb-2">
-          Enter Certificate ID:
-        </label>
-        <input
-          type="text"
-          className="input input-bordered w-full"
-          value={certificateId}
-          onChange={(e) => setCertificateId(e.target.value)}
-          placeholder="e.g., 123e4567"
-        />
-        <button
-          className="btn btn-primary w-full mt-4"
-          onClick={handleVerify}
-          disabled={loading}
-        >
-          {loading ? "Verifying..." : "Verify"}
-        </button>
-
-        {error && <p className="text-red-500 mt-3 text-center">{error}</p>}
-
-        {certificateData && (
-          <div className="mt-6 p-4 bg-amber-500 border-l-4 border-green-500 rounded-lg">
-            <h2 className="text-xl font-semibold text-green-700">
-              Certificate Verified ✅
-            </h2>
-            <p>
-              <strong>Name:</strong> {certificateData.name}
-            </p>
-            <p>
-              <strong>Email:</strong> {certificateData.email}
-            </p>
-            <p>
-              <strong>Certificate Type:</strong>{" "}
-              {certificateData.certificateType
-                ? certificateData.certificateType
-                : "N/A"}
-            </p>
-            <p>
-              <strong>Unique ID:</strong> {certificateData.uniqueId}
-            </p>
-            <p>
-              <strong>Date Issued:</strong>{" "}
-              {certificateData.issuedAt
-                ? new Date(certificateData.issuedAt).toLocaleDateString()
-                : "N/A"}
-            </p>
-
-            {/* Display QR Code if available */}
-          </div>
-        )}
+    <div style={{ width: '100%', minHeight: '100vh', position: 'relative', overflow: 'visible' }}>
+      <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+        <DarkVeil />
+      </div>
+      <div style={{ position: 'relative', zIndex: 1 }} className="flex flex-col items-center justify-center min-h-screen py-12 px-4">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-center mb-8 text-white drop-shadow-lg tracking-tight">Verify Certificate</h1>
+        <div className="w-full max-w-lg rounded-2xl bg-[rgba(255,255,255,0.10)] backdrop-blur-md border border-[rgba(180,120,255,0.18)] shadow-2xl p-8 flex flex-col gap-4">
+          <label className="block text-lg font-semibold mb-2 text-white/90">Enter Certificate ID:</label>
+          <input
+            type="text"
+            className="input input-bordered w-full bg-white/80 text-gray-900 font-semibold rounded-lg focus:ring-2 focus:ring-blue-400"
+            value={certificateId}
+            onChange={(e) => setCertificateId(e.target.value)}
+            placeholder="e.g., 123e4567"
+          />
+          <button
+            className="mt-4 px-7 py-3 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 text-white text-lg font-extrabold font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onClick={handleVerify}
+            disabled={loading}
+          >
+            {loading ? "Verifying..." : "Verify"}
+          </button>
+          {error && <p className="text-red-400 mt-3 text-center font-semibold">{error}</p>}
+          {certificateData && (
+            <div className="mt-6 p-6 bg-white/80 rounded-xl shadow-lg border-l-4 border-green-500 animate-fade-in-up">
+              <h2 className="text-xl font-bold text-green-700 mb-2">Certificate Verified ✅</h2>
+              <div className="text-gray-800 font-semibold space-y-1">
+                <p><strong>Name:</strong> {certificateData.name}</p>
+                <p><strong>Email:</strong> {certificateData.email}</p>
+                <p><strong>Certificate Type:</strong> {certificateData.certificateType ? certificateData.certificateType : "N/A"}</p>
+                <p><strong>Unique ID:</strong> {certificateData.uniqueId}</p>
+                <p><strong>Date Issued:</strong> {certificateData.issuedAt ? new Date(certificateData.issuedAt).toLocaleDateString() : "N/A"}</p>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

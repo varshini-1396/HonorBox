@@ -1,4 +1,7 @@
 # HonorBox
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 **HonorBox** is a free and open-source web-based application that allows users to generate and verify certificates effortlessly. It provides a seamless and secure way to issue digital certificates and validate their authenticity.
 
@@ -71,3 +74,25 @@ If you find HonorBox useful, please ⭐ star the repository and share it with ot
 ---
 
 🚀 **Start generating & verifying certificates with HonorBox today!**
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/suryssss"><img src="https://avatars.githubusercontent.com/u/176365924?v=4?s=100" width="100px;" alt="Rithwik Surya"/><br /><sub><b>Rithwik Surya</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=suryssss" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

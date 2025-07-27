@@ -20,17 +20,25 @@ const Verify = () => {
       return;
     }
 
+    console.log('Verifying certificate ID:', certificateId.trim());
+
     try {
       const response = await fetch(
-        `${BACKEND_URL}/api/verify/${certificateId}`
+        `${BACKEND_URL}/api/verify/${certificateId.trim()}`
       );
+      
+      console.log('Response status:', response.status);
+      
       const data = await response.json();
+      console.log('Response data:', data);
+      
       if (response.ok) {
         setCertificateData(data);
       } else {
         setError(data.message || "Certificate not found.");
       }
     } catch (err) {
+      console.error('Verification error:', err);
       setError("Error verifying the certificate. Please try again.");
     } finally {
       setLoading(false);

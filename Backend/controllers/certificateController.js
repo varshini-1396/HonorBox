@@ -94,16 +94,27 @@ exports.verifyCertificate = async (req, res) => {
     const { uniqueId } = req.params;
     console.log('Verifying certificate with ID:', uniqueId);
     
+    if (!uniqueId || uniqueId.trim() === '') {
+      return res.status(400).json({ message: "Certificate ID is required" });
+    }
+
     const certificate = await Certificate.findOne({ uniqueId });
-    console.log('Found certificate:', certificate);
+    console.log('Found certificate:', certificate ? 'Yes' : 'No');
 
     if (!certificate) {
       console.log('Certificate not found for ID:', uniqueId);
       return res.status(404).json({ message: "Certificate not found" });
     }
 
-    console.log('Certificate verified successfully:', certificate.name);
-    res.json(certificate);
+    console.log('Certificate verified successfully for:', certificate.name);
+    res.json({
+      name: certificate.name,
+      email: certificate.email,
+      certificateType: certificate.certificateType,
+      uniqueId: certificate.uniqueId,
+      issuedAt: certificate.issuedAt,
+      verified: true
+    });
   } catch (error) {
     console.error('Verification error:', error);
     res.status(500).json({ error: error.message });
@@ -178,7 +189,8 @@ const sendCertificateEmail = async (email, name, certificateType, uniqueId) => {
   try {
     // Check if email credentials are configured
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      throw new Error('Email credentials not configured');
+      console.warn('Email credentials not configured, skipping email send');
+      return { success: false, reason: 'Email credentials not configured' };
     }
 
     const transporter = nodemailer.createTransport({
@@ -187,15 +199,7 @@ const sendCertificateEmail = async (email, name, certificateType, uniqueId) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
       },
-      // Add these options for better compatibility
-      secure: false,
-      tls: {
-        rejectUnauthorized: false
-      }
     });
-
-    // Verify connection configuration
-    await transporter.verify();
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
@@ -207,16 +211,18 @@ const sendCertificateEmail = async (email, name, certificateType, uniqueId) => {
           <p>Your certificate has been generated successfully.</p>
           <p><strong>Certificate Type:</strong> ${certificateType}</p>
           <p><strong>Unique ID:</strong> ${uniqueId}</p>
-          <p>You can verify your certificate by visiting our verification page.</p>
+          <p>You can verify your certificate by visiting: <a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/verify">Verify Certificate</a></p>
+          <p>Enter this ID to verify: <strong>${uniqueId}</strong></p>
           <p>Best regards,<br>HonorBox Team</p>
         </div>
       `,
     };
 
-    return await transporter.sendMail(mailOptions);
+    const result = await transporter.sendMail(mailOptions);
+    return { success: true, result };
   } catch (error) {
     console.error('Email sending error:', error);
-    throw new Error(`Failed to send email to ${email}: ${error.message}`);
+    return { success: false, reason: error.message };
   }
 };
 
@@ -274,14 +280,21 @@ exports.bulkGenerateCertificates = async (req, res) => {
 
         // Send email (optional - will continue even if email fails)
         let emailStatus = 'not_sent';
+        let emailError = null;
         try {
-          await sendCertificateEmail(recipient.email, recipient.name, recipient.certificateType, uniqueId);
-          console.log(`📧 Email sent to: ${recipient.email}`);
-          emailStatus = 'sent';
+          const emailResult = await sendCertificateEmail(recipient.email, recipient.name, recipient.certificateType, uniqueId);
+          if (emailResult.success) {
+            console.log(`📧 Email sent to: ${recipient.email}`);
+            emailStatus = 'sent';
+          } else {
+            console.warn(`⚠️ Email failed for ${recipient.email}: ${emailResult.reason}`);
+            emailStatus = 'failed';
+            emailError = emailResult.reason;
+          }
         } catch (emailError) {
           console.warn(`⚠️ Email failed for ${recipient.email}:`, emailError.message);
-          // Continue with certificate generation even if email fails
           emailStatus = 'failed';
+          emailError = emailError.message;
         }
 
         results.push({
@@ -289,7 +302,8 @@ exports.bulkGenerateCertificates = async (req, res) => {
           email: recipient.email,
           uniqueId,
           status: 'success',
-          emailStatus: emailStatus
+          emailStatus: emailStatus,
+          emailError: emailError
         });
 
         console.log(`✅ Successfully processed: ${recipient.name}`);

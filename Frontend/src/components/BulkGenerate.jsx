@@ -290,7 +290,11 @@ Mike Johnson,mike@example.com,Completion`;
                               result.emailStatus === 'sent' ? 'text-green-600' : 
                               result.emailStatus === 'failed' ? 'text-orange-600' : 'text-gray-600'
                             }`}>
-                              (Email: {result.emailStatus})
+                              (Email: {result.emailStatus}
+                              {result.emailError && result.emailStatus === 'failed' && (
+                                <span className="text-xs text-red-500"> - {result.emailError}</span>
+                              )}
+                              )
                             </span>
                           )}
                         </span>

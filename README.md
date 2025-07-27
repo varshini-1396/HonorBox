@@ -87,7 +87,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <tr>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/suryssss"><img src="https://avatars.githubusercontent.com/u/176365924?v=4?s=100" width="100px;" alt="Rithwik Surya"/><br /><sub><b>Rithwik Surya</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=suryssss" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/SK8-infi"><img src="https://avatars.githubusercontent.com/u/183415109?v=4?s=100" width="100px;" alt="Shivansh Katiyar"/><br /><sub><b>Shivansh Katiyar</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=SK8-infi" title="Documentation">📖</a></td>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Charul192"><img src="https://avatars.githubusercontent.com/u/183530152?v=4?s=100" width="100px;" alt="Charul192"/><br /><sub><b>Charul192</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Charul192" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Charul192"><img src="https://avatars.githubusercontent.com/u/183530152?v=4?s=100" width="100px;" alt="Charul192"/><br /><sub><b>Charul192</b></sub></a><br /><a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Charul192" title="Documentation">📖</a> <a href="https://github.com/RamakrushnaBiswal/HonorBox/commits?author=Charul192" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

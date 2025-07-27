@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState, useRef, useEffect } from "react";
 import QRCode from "qrcode";
 import DarkVeil from "./DarkVeil";

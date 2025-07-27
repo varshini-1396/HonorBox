@@ -79,21 +79,39 @@ const Home = () => {
           >
             {/*check here */}
             {user ? (
-              <Link
-                to="/generate"
-                className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
-                tabIndex={0}
-              >
-                <FaFileAlt className="text-2xl" /> Generate Certificate
-              </Link>
+              <>
+                <Link
+                  to="/generate"
+                  className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
+                  tabIndex={0}
+                >
+                  <FaFileAlt className="text-2xl" /> Generate Certificate
+                </Link>
+                <Link
+                  to="/bulk-generate"
+                  className="px-7 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-400 flex items-center gap-2"
+                  tabIndex={0}
+                >
+                  <FaFileAlt className="text-2xl" /> Bulk Generate
+                </Link>
+              </>
             ) : (
-              <button
-                onClick={() => alert("Please log in to generate certificates.")}
-                className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
-                tabIndex={0}
-              >
-                <FaFileAlt className="text-2xl" /> Generate Certificate
-              </button>
+              <>
+                <button
+                  onClick={() => alert("Please log in to generate certificates.")}
+                  className="px-7 py-3 rounded-full bg-white text-black text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center gap-2"
+                  tabIndex={0}
+                >
+                  <FaFileAlt className="text-2xl" /> Generate Certificate
+                </button>
+                <button
+                  onClick={() => alert("Please log in to use bulk generation.")}
+                  className="px-7 py-3 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white text-lg font-medium font-[Inter] shadow-lg transition-transform hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-purple-400 flex items-center gap-2"
+                  tabIndex={0}
+                >
+                  <FaFileAlt className="text-2xl" /> Bulk Generate
+                </button>
+              </>
             )}
 
             <Link
